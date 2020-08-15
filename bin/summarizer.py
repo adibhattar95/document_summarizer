@@ -9,7 +9,7 @@ class FindSummary:
             self.config = yaml.load(fl, Loader=yaml.FullLoader)
             
     def loadData(self):
-        with open(self.config['data']['articles_path']) as fl:
+        with open(self.config['data']['articles_path'], 'r', encoding='utf-8') as fl:
             articleText = fl.read()
             
         return articleText
