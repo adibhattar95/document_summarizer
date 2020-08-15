@@ -51,9 +51,9 @@ class FindSummary:
         return summaryText
     
     
-if __name__ == "__main__":
-    summaryObj = FindSummary('../config/config.yaml')
-    summaryText = summaryObj.summarize()
+# if __name__ == "__main__":
+#     summaryObj = FindSummary('../config/config.yaml')
+#     summaryText = summaryObj.summarize()
     
 
         
