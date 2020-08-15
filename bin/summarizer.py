@@ -33,9 +33,9 @@ class FindSummary:
         top5Sents = [sentences[i] for i in top5idx]
         return top5Sents
     
-    def summarize(self):
+    def summarize(self, article):
         
-        articleText = self.loadData()
+        articleText = article #self.loadData()
         preprocessObj = PreprocessText()
         loweredText = preprocessObj.convertToLower(articleText)
         filteredText = preprocessObj.removeSpecialChar(loweredText)
