@@ -1,63 +1,153 @@
 import yaml
 import numpy as np
-from preprocessor import PreprocessText
+from processor2 import PreprocessText
 
 class FindSummary:
     
-    def __init__(self, configPath):
-        with open(configPath, 'r') as fl:
-            self.config = yaml.load(fl, Loader=yaml.FullLoader)
-            
-    def loadData(self):
-        with open(self.config['data']['articles_path'], 'r', encoding='utf-8') as fl:
-            articleText = fl.read()
-            
-        return articleText
+    '''
     
-    def splitSentence(self, text):
+    Summarize news articles fed form file
+    
+    '''
+    
+    def __init__(self, config_path):
+        '''
+        Provvide path of file to summarize
+
+        Parameters
+        ----------
+        text : path of file to summarize
+            text from news article
+
+        Returns
+        -------
+        article_text : file loaded
+
+        '''
+        
+        with open(config_path, 'r') as fl:
+            self.config = yaml.load(fl, Loader = yaml.FullLoader)
+            
+    def load_data(self):
+        '''
+        Load file to summarize
+
+        Parameters
+        ----------
+        data : text from the news article
+
+        Returns
+        -------
+        article_text : file loaded as news article
+
+        '''
+        
+        with open(self.config['data']['articles_path'], 'r', encoding = 'utf-8') as fl:
+            article_text = fl.read()
+        return article_text
+    
+    def split_sentences(self, text):
+        '''
+        split article text into sentences
+
+        Parameters
+        ----------
+        text: text from the news article
+
+        Returns
+        -------
+        sentences: text split into seperate sentences
+
+        '''
+        
         sentences = text.split('.')
         return sentences
     
-    def groupSentence(self, sentences):
-        text1 = sentences[0]
-        remainingText = sentences[1:]
-        return text1, remainingText
+    def group_sentences(self, sentences):
+        '''
+        split sentences into two groups - first sentences and rest of the sentences
+
+        Parameters
+        ----------
+        sentences: sentences split
+        
+        Returns
+        -------
+        text1: first sentences
+        remaining_text: rest of the sentences
+
+        '''
+        
+        first_sentence = sentences[0]
+        remaining_sentences = sentences[1:]
+        return first_sentence, remaining_sentences
     
-    def findSentLen(self, sentences):
-        sentLengths = [len(sent) for sent in sentences]
-        return sentLengths
+    def find_sentence_length(self, sentences):
+        '''
+        find length of each sentence from the article
+
+        Parameters
+        ----------
+        sentences: sentences split
+        
+        Returns
+        -------
+        sentence_length: list of lenghts of all sentences
+
+        '''
+        
+        sentence_lengths = [len(sentence) for sentence in sentences]
+        return sentence_lengths
     
-    def findTopFive(self, sentences, sentLengths):
-        sortedIdx = np.argsort(sentLengths)
-        top5idx = sortedIdx[-5:]
-        top5Sents = [sentences[i] for i in top5idx]
-        return top5Sents
+    def find_top_five(self, sentences, sentence_lengths):
+        '''
+        find length of top 5 sentences from the article
+
+        Parameters
+        ----------
+        sentences: sentences split
+        sentence_lengths: list of sentence lengths
+        
+        Returns
+        -------
+        top5_sentences: top 5 sentences by length
+
+        '''
+        
+        sorted_idx = np.argsort(sentence_lengths)
+        top5_idx = sorted_idx[-5:]
+        top5_sentences = [sentences[i] for i in top5_idx]
+        return top5_sentences
     
     def summarize(self, article):
-        
-        articleText = article #self.loadData()
-        preprocessObj = PreprocessText()
-        loweredText = preprocessObj.convertToLower(articleText)
-        filteredText = preprocessObj.removeSpecialChar(loweredText)
-        sentences = self.splitSentence(filteredText)
-        text1, remainingText = self.groupSentence(sentences)
-        sentLengths = self.findSentLen(remainingText)
-        top5Sents = self.findTopFive(remainingText, sentLengths)
-        
-        summaryTextList = [text1]
-        summaryTextList.extend(top5Sents)
-        
-        summaryText = ' '.join(summaryTextList)
-        return summaryText
-    
-    
-# if __name__ == "__main__":
-#     summaryObj = FindSummary('../config/config.yaml')
-#     summaryText = summaryObj.summarize()
-    
+        '''
+        summarize news article using all functions defined above
 
+        Parameters
+        ----------
+        article: article to summarize
+        
+        Returns
+        -------
+        summary_text: news article summarized
+
+        '''
+        
+        article_text = article
+        preprocess_obj = PreprocessText()
+        lowered_text = preprocess_obj.convert_to_lower(article_text)
+        filtered_text = preprocess_obj.remove_special_character(lowered_text)
+        sentences = self.split_sentences(filtered_text)
+        first_sentence, remaining_sentences = self.group_sentences(sentences)
+        sentence_lengths = self.find_sentence_length(remaining_sentences)
+        top5_sentences = self.find_top_five(remaining_sentences, sentence_lengths)
+        
+        summary_text_list = [first_sentence]
+        summary_text_list.extend(top5_sentences)
+        
+        summary_text = ' '.join(summary_text_list)
+        return summary_text
         
         
         
-        
-        
+            

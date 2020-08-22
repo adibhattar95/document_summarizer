@@ -1,16 +1,17 @@
 import re
 
 class PreprocessText:
+    
     '''
     
-     Preprocess news articles fed from files
-     
-     '''
+    Preprocess news articles fed from files
+    
+    '''
     
     def __init__(self):
         pass
     
-    def convertToLower(self, text):
+    def convert_to_lower(self, text):
         '''
         Convert text to lowercase
 
@@ -21,14 +22,16 @@ class PreprocessText:
 
         Returns
         -------
-        loweredText : string
+        lowered_text : string
             lower case characters.
 
         '''
-        loweredText = text.lower()
-        return loweredText
+        
+        lowered_text = text.lower()
+        return lowered_text
     
-    def removeSpecialChar(self, text):
+    
+    def remove_special_character(self, text):
         '''
         remove special characters from text
 
@@ -39,17 +42,13 @@ class PreprocessText:
 
         Returns
         -------
-        loweredText : string
+        processed_text : string
             text without special characters
         '''
-        processedText = re.sub(',|;|<|>|', '', text)
-        return processedText
+        
+        processed_text = re.sub(',|;|:|<|>|', '', text)
+        return processed_text
     
     
+
     
-# if __name__ == "__main__":
-#     proprocessObj = PreprocessText()
-#     text =  "of that software about it, so they can make and release the proper adjustments."
-#     loweredText = preprocessObj.convertToLower(text)
-#     filteredText = preprocessObj.removeSpecialChar(loweredText)
-#     print('filtered text: {}.'.format(filteredText))
