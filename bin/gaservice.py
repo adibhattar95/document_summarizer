@@ -1,7 +1,7 @@
 import flask
 from flask import request, Flask
 import json
-from summarizer2 import FindSummary
+from summarizer import FindSummary
 
 app = Flask(__name__)
 
