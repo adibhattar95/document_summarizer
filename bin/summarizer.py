@@ -1,6 +1,6 @@
 import yaml
 import numpy as np
-from processor2 import PreprocessText
+from preprocessor import PreprocessText
 
 class FindSummary:
     
